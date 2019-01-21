@@ -1,3 +1,4 @@
 {
-  "python.pythonPath": "/Development/Django/DjangoEnv/bin/python"
+  "python.pythonPath": "/Development/Django/DjangoEnv/bin/python3",
+  "python.linting.pylintArgs": ["--load-plugins=pylint_django", ],
 }

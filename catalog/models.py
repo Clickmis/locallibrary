@@ -1,13 +1,14 @@
+import uuid
+from datetime import date
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-import uuid
-from datetime import date
 
 # Create your models here.
 
 
 class Genre(models.Model):
+    """Genre class"""
     name = models.CharField(
         max_length=200, help_text="Enter a book genre (e.g. Science Fiction, Ferench Poetry etc .)")
 
@@ -16,6 +17,7 @@ class Genre(models.Model):
 
 
 class Book(models.Model):
+    """Book Class"""
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     summary = models.TextField(
@@ -25,12 +27,15 @@ class Book(models.Model):
         Genre, help_text="Select a genre for this book")
 
     def __str__(self):
+        """member description"""
         return self.title
 
     def get_absolute_url(self):
+        """redirect link in class"""
         return reverse('catalog:book-detail', args=[str(self.id)])
 
     def display_genre(self):
+        """display range of Genre"""
         return ','.join([genre.name for genre in self.genre.all()[:3]])
 
 
@@ -38,6 +43,7 @@ class Book(models.Model):
 
 
 class BookInstance(models.Model):
+    """BookInstance class"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
                           help_text="Unique ID for this particular book across whole library")
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
@@ -61,23 +67,28 @@ class BookInstance(models.Model):
         permissions = (("can_mark_returned", "Set book as returned"),)
 
     def __str__(self):
+        """ member description"""
         return '%s (%s)' % (self.id, self.book.title)
 
     @property
     def is_overdue(self):
+        """check if book is overdue in date"""
         if self.due_back and date.today() > self.due_back:
             return True
         return False
 
 
 class Author(models.Model):
+    """Author class"""
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField('Died', null=True, blank=True)
 
     def get_absolute_url(self):
+        """redirect link in class"""
         return reverse('catalog:author-detail', args=[str(self.id)])
 
     def __str__(self):
+        """member description"""
         return '%s, %s' % (self.last_name, self.first_name)
