@@ -1,7 +1,7 @@
-{% extends "catalog/base_generic.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
-{% block content %}
-<h1>Book List</h1>
 {% if book_list %}
 <ul>
   {% for book in book_list %}
@@ -11,6 +11,5 @@
   {% endfor %}
 </ul>
 {% else %}
-<p>There are no books in the library.</p>
+{% bootstrap_alert "There are no books in the library." alert_type='danger' %}
 {% endif %}
-{% endblock %}

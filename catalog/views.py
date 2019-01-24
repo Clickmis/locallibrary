@@ -30,7 +30,7 @@ class BookListView(generic.ListView):
     ListlView Class for Showing Books
     """
     template_name = 'catalog/book_list.html'
-    context_object_name = 'book_list '
+    # context_object_name = 'book_list '
     model = models.Book
 
 
@@ -52,6 +52,9 @@ class AuthorListView(generic.ListView):
 
 
 class AuthorDetailView(generic.DetailView):
+    """
+    DetailView Class for an Author
+    """
     model = models.Author
     template_name = 'catalog/author_detail.html'
 
